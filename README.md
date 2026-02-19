@@ -14,7 +14,7 @@ An MCP (Model Context Protocol) server that wraps the [Sprout Social Public API]
 | `list_teams` | List all teams |
 | `get_profile_analytics` | Get aggregated analytics by profile (impressions, engagements, etc.) |
 | `get_post_analytics` | Get analytics for individual posts |
-| `get_messages` | Retrieve messages with filtering by profile, date, type, and tag |
+| `get_messages` | Retrieve inbound inbox messages (Smart Inbox) — for outbound post counts use `get_post_analytics` |
 | `create_post` | Create a draft or scheduled post |
 | `get_publishing_post` | Retrieve a specific publishing post by ID |
 

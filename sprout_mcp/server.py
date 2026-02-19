@@ -186,19 +186,20 @@ async def get_messages(
     profile_ids: str,
     start_time: str,
     end_time: str,
-    post_type: str = "",
     tag_ids: str = "",
     limit: int = 50,
     page_cursor: str = "",
     customer_id: str = "",
 ) -> str:
-    """Retrieve messages with metadata and filtering.
+    """Retrieve inbound inbox messages (Smart Inbox) with optional filtering.
+
+    This endpoint returns INBOUND messages only (mentions, DMs, comments).
+    For OUTBOUND post counts and performance metrics, use get_post_analytics instead.
 
     Args:
         profile_ids: Comma-separated Sprout profile IDs.
         start_time: Start datetime (ISO 8601, e.g. '2024-01-01T00:00:00').
         end_time: End datetime (ISO 8601).
-        post_type: Filter by direction: 'INBOUND', 'OUTBOUND', or '' for all.
         tag_ids: Comma-separated tag IDs to filter by (optional).
         limit: Number of messages to return (default 50).
         page_cursor: Pagination cursor from a previous response (optional).
@@ -209,8 +210,6 @@ async def get_messages(
         f"customer_profile_id.eq({ids})",
         f"created_time.in({start_time}..{end_time})",
     ]
-    if post_type:
-        filters.append(f"post_type.eq({post_type})")
     if tag_ids:
         tag_list = ",".join(_split(tag_ids))
         filters.append(f"tag_id.eq({tag_list})")
