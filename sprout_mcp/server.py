@@ -147,20 +147,21 @@ async def get_post_analytics(
     profile_ids: str,
     start_time: str,
     end_time: str,
-    metrics: str = "impressions,engagements,clicks",
-    timezone: str = "UTC",
+    metrics: str = "lifetime.impressions,lifetime.reactions,lifetime.engagements,lifetime.clicks",
     limit: int = 50,
     customer_id: str = "",
 ) -> str:
-    """Get analytics metrics for individual posts.
+    """Get analytics metrics for individual published posts.
+
+    Post-level metrics use the 'lifetime.' prefix (e.g. 'lifetime.impressions').
+    Common metrics: lifetime.impressions, lifetime.reactions, lifetime.engagements,
+                    lifetime.clicks, lifetime.shares, lifetime.comments, lifetime.video_views.
 
     Args:
         profile_ids: Comma-separated Sprout profile IDs.
-        start_time: Start of period (ISO 8601).
-        end_time: End of period (ISO 8601).
-        metrics: Comma-separated metric names. Common options:
-                 impressions, engagements, clicks, reactions, comments, shares, video_views.
-        timezone: Timezone for the report. Default: UTC.
+        start_time: Start of period (ISO 8601, e.g. '2024-01-01T00:00:00').
+        end_time: End of period (ISO 8601, e.g. '2024-01-31T23:59:59').
+        metrics: Comma-separated metric names with lifetime. prefix.
         limit: Number of posts to return (default 50, max 100).
         customer_id: Sprout customer ID. Defaults to SPROUT_CUSTOMER_ID env var.
     """
@@ -170,9 +171,10 @@ async def get_post_analytics(
             f"customer_profile_id.eq({ids})",
             f"created_time.in({start_time}..{end_time})",
         ],
+        "fields": ["created_time", "text", "perma_link"],
         "metrics": _split(metrics),
-        "timezone": timezone,
         "limit": limit,
+        "sort": ["created_time:desc"],
     }
     data = await _get_client().post(f"/v1/{_cid(customer_id)}/analytics/posts", body)
     return json.dumps(data, indent=2)
