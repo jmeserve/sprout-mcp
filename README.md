@@ -4,6 +4,7 @@ An MCP (Model Context Protocol) server that wraps the [Sprout Social Public API]
 
 ## Tools
 
+### Metadata
 | Tool | Description |
 |---|---|
 | `list_customers` | List all customers/accounts accessible with your API token |
@@ -12,11 +13,32 @@ An MCP (Model Context Protocol) server that wraps the [Sprout Social Public API]
 | `list_groups` | List all profile groups |
 | `list_users` | List all active users |
 | `list_teams` | List all teams |
-| `get_profile_analytics` | Get aggregated analytics by profile (impressions, engagements, etc.) |
-| `get_post_analytics` | Get analytics for individual posts |
-| `get_messages` | Retrieve inbound inbox messages (Smart Inbox) — for outbound post counts use `get_post_analytics` |
+
+### Analytics
+| Tool | Description |
+|---|---|
+| `get_profile_analytics` | Get aggregated metrics by profile (impressions, engagements, follower growth, etc.) |
+| `get_post_analytics` | Get metrics for individual published posts — also use this for post counts |
+
+### Listening
+| Tool | Description |
+|---|---|
+| `list_listening_topics` | List all Listening topics and their IDs |
+| `get_listening_messages` | Fetch messages from a Listening topic, filterable by network (Reddit, Twitter, etc.) |
+
+### Smart Inbox
+| Tool | Description |
+|---|---|
+| `get_messages` | Retrieve inbound inbox messages (mentions, DMs, comments) |
+
+### Publishing
+| Tool | Description |
+|---|---|
+| `list_publishing_posts` | List published, scheduled, or draft posts |
 | `create_post` | Create a draft or scheduled post |
-| `get_publishing_post` | Retrieve a specific publishing post by ID |
+| `get_publishing_post` | Retrieve a specific post by ID |
+
+> **Note:** All tools return structured JSON error details on failure (HTTP status, endpoint, and API error body) instead of raw exceptions.
 
 ## Setup
 
